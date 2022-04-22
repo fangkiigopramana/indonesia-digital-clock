@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta cday_numberset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jam Digital Indonesia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="time">
+        <h1 style="margin: 20px 100px;">
+            <span id="day"></span>
+            <span> , </span>
+            <span id="date"></span>
+            <span id="month"></span>
+            <span id="year"></span>
+        </h1>
+        <div class="circle" style="--clr:#ff2972;">
+            <div class="dots hr_dot"></div>
+            <svg>
+                <circle cx="70" cy="70" r="70"></circle>
+                <circle cx="70" cy="70" r="70" id="hh"></circle>
+            </svg>
+            <div id="hours">00</div>
+        </div>
+        <div class="circle" style="--clr:#fee800;">
+            <div class="dots min_dot"></div>
+            <svg>
+                <circle cx="70" cy="70" r="70"></circle>
+                <circle cx="70" cy="70" r="70" id="mm"></circle>
+            </svg>
+            <div id="minutes">00</div>
+        </div>
+        <div class="circle" style="--clr:#04fc43;">
+            <div class="dots sec_dot"></div>
+            <svg>
+                <circle cx="70" cy="70" r="70"></circle>
+                <circle cx="70" cy="70" r="70" id="ss"></circle>
+            </svg>
+            <div id="seconds">00</div>
+        </div>
+        <div class="ap">
+            <div id="ampm">AM</div>
+        </div>
+    </div>
+    <script>
+        // get elemen by id
+        let day = document.getElementById('day')
+        let date = document.getElementById('date')
+        let month = document.getElementById('month')
+        let year = document.getElementById('year')
+        
+        // name
+        let day_name;
+        let month_name;
+        
+        // get number
+        let day_number = new Date().getDay();
+        let date_number = new Date().getDate();
+        let month_number= new Date().getMonth();
+        let year_number = new Date().getFullYear();
+
+        // call function
+        getDay(day_number);
+        getMonth(month_number);
+
+        // input to html
+        day.innerHTML = day_name;
+        date.innerHTML = date_number;
+        month.innerHTML = month_name;
+        year.innerHTML = year_number;
+
+        // Get Month Name
+        function getMonth(month_number) {
+            m_name = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+            return month_name = m_name[month_number];
+        }
+        
+        // Get Day Name
+        function getDay(day_number) {
+            d_name = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+            return day_name = d_name[day_number-1];
+        };
+
+        // clock
+        setInterval(() => {       
+
+            let hours = document.getElementById('hours');
+            let minutes = document.getElementById('minutes');
+            let seconds = document.getElementById('seconds');
+            let ampm = document.getElementById('ampm');
+
+            let hh = document.getElementById('hh');
+            let mm = document.getElementById('mm');
+            let ss = document.getElementById('ss');
+
+            let hr_dot = document.querySelector('.hr_dot');
+            let min_dot = document.querySelector('.min_dot');
+            let sec_dot = document.querySelector('.sec_dot');
+
+            let h = new Date().getHours();
+            let m = new Date().getMinutes();
+            let s = new Date().getSeconds();
+            
+            let am = h >= 12 ? "PM" : "AM";
+            
+            h = (h < 10) ? "0" + h : h; //Nol di depan 
+            m = (m < 10) ? "0" + m : m; //Nol di depan 
+            s = (s < 10) ? "0" + s : s; //Nol di depan 
+            
+            hours.innerHTML = h + "<br> <span>Hours<span>";
+            minutes.innerHTML = m + "<br> <span>Minutes<span>";
+                seconds.innerHTML = s + "<br> <span>Seconds<span>";
+                    ampm.innerHTML = am;
+                    
+                    hh.style.strokeDashoffset = 440 - (440 * h) / 12;
+            mm.style.strokeDashoffset = 440 - (440 * m) / 60;
+            ss.style.strokeDashoffset = 440 - (440 * s) / 60;
+
+            hr_dot.style.transform = `rotate(${h * 30}deg)`;
+            min_dot.style.transform = `rotate(${m * 6}deg)`;
+            sec_dot.style.transform = `rotate(${s * 6}deg)`;
+
+        })
+    </script>
+
+</body>
+
+</html>
